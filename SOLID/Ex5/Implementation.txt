@@ -1,0 +1,17 @@
+According to Readme.md file it is clearly mentioned that this code is violating the LSP principle, and how it is violating
+is the parent which is the Exporter class, always expects the Export Result from it's child class.
+
+Now the children: PdfExporter, CsvExporter, JsonExporter each of them are behaving differently and thus breaking the LSP principle.
+For the PdfExporter it checks the condition of the length and throw exception which is not expected by the parent class,
+similarly for the CsvExporter: it is converting the data, or simple losing the meaning of the data, thus it is not reliable as it is 
+changing the whole meaning,
+for example:
+if the input is Hello, World! then  the output is Hello World!, missed the comma
+
+Similalry for the JsonExporter, if the req is null then that function is silently crashing, which is again not expected by the parent class.
+
+Thus changing each of them by defining what we actually want in the parent class and implementing in that way in the child class.
+
+1. Pdfexporter :  removed the precondition check of the length
+2. CsvExporter: instead of removing the characters escaping them, thus the meaning remains as it is.
+3. JsonExporter: instead of crashing(returning empty json output), it is returning the default condition.
